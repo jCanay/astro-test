@@ -11,6 +11,9 @@ on:
 
 jobs:
   build:
+    env:
+      REWARDS_START_DATE: ${{ vars.REWARDS_START_DATE }}
+
     runs-on: ubuntu-24.04
 
     steps:
