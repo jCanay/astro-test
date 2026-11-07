@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "engines": {
-    "node": ">=22.23.4"
+    "node": ">=26.13.0"
   },
   "scripts": {
     "dev": "astro dev",
@@ -12,11 +12,14 @@
     "astro": "astro",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "check": "astro check"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.12",
     "@astrojs/node": "^11.1.11",
-    "astro": "^7.4.5"
+    "astro": "^7.4.5",
+    "typescript": "^6.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

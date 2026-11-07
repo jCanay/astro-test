@@ -29,6 +29,9 @@ jobs:
       - name: Run ESLint
         run: npm run lint
 
+      - name: Check TypeScript and Astro
+        run: npm run check
+
       - name: Check Prettier formatting
         run: npm run format:check
 

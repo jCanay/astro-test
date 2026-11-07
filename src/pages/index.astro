@@ -1,4 +1,8 @@
 ---
+import RewardCountdown from "../components/RewardCountdown.astro";
+import { getNextUnlockTime } from "../lib/rewards";
+
+const nextUnlockTime = getNextUnlockTime();
 ---
 
 <html lang="en">
@@ -12,5 +16,12 @@
   </head>
   <body>
     <h1>Astro</h1>
+    {nextUnlockTime !== null && (
+      <section>
+        <h2>Próxima recompensa en:</h2>
+        <RewardCountdown targetTime={nextUnlockTime} />
+      </section>
+    )}
+    <button id="play-button">Play</button>
   </body>
 </html>

@@ -1,0 +1,116 @@
+---
+interface Props {
+  targetTime: number;
+}
+
+const { targetTime } = Astro.props;
+
+const getInitialCountdown = () => {
+  const remaining = Math.max(0, targetTime - Date.now());
+  const totalSeconds = Math.floor(remaining / 1000);
+
+  return {
+    hours: Math.floor(totalSeconds / 3600),
+    minutes: Math.floor((totalSeconds % 3600) / 60),
+    seconds: totalSeconds % 60,
+  };
+};
+
+const initial = getInitialCountdown();
+
+const formatTime = (value: number) => String(value).padStart(2, "0");
+---
+
+<div class="countdown" data-target-time={targetTime}>
+  <div class="time-unit">
+    <span data-hours>{formatTime(initial.hours)}</span>
+    <small>Horas</small>
+  </div>
+
+  <div class="separator">:</div>
+
+  <div class="time-unit">
+    <span data-minutes>{formatTime(initial.minutes)}</span>
+    <small>Minutos</small>
+  </div>
+
+  <div class="separator">:</div>
+
+  <div class="time-unit">
+    <span data-seconds>{formatTime(initial.seconds)}</span>
+    <small>Segundos</small>
+  </div>
+</div>
+
+<script>
+  const countdowns = document.querySelectorAll<HTMLElement>(".countdown");
+
+  countdowns.forEach((countdown) => {
+    const targetTime = Number(countdown.dataset.targetTime);
+
+    const hoursElement = countdown.querySelector("[data-hours]");
+    const minutesElement = countdown.querySelector("[data-minutes]");
+    const secondsElement = countdown.querySelector("[data-seconds]");
+
+    const updateCountdown = () => {
+      const remaining = Math.max(0, targetTime - Date.now());
+      const totalSeconds = Math.floor(remaining / 1000);
+
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      if (hoursElement) {
+        hoursElement.textContent = String(hours).padStart(2, "0");
+      }
+
+      if (minutesElement) {
+        minutesElement.textContent = String(minutes).padStart(2, "0");
+      }
+
+      if (secondsElement) {
+        secondsElement.textContent = String(seconds).padStart(2, "0");
+      }
+
+      if (remaining <= 0) {
+        clearInterval(interval);
+      }
+    };
+
+    const interval = window.setInterval(updateCountdown, 1000);
+
+    updateCountdown();
+  });
+</script>
+
+<style>
+  .countdown {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .time-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .time-unit span {
+    font-size: 2rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .time-unit small {
+    font-size: 0.75rem;
+    opacity: 0.7;
+  }
+
+  .separator {
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+</style>
