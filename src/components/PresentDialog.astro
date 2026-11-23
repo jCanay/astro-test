@@ -1,0 +1,459 @@
+---
+---
+
+<script>
+  import { animate, createTimeline } from "animejs";
+
+  const audioOpenChest = new Audio("/audio/zelda-chest-open-short.ogg");
+
+  enum State {
+    LOCKED, // Bloqueado, aun no se puede abrir
+    UNLOCKED, // Desbloqueado, pero aún no abierto
+    OPENED, // Abierto, pero solo
+    READY, //
+  }
+  const currentState = State.LOCKED;
+
+  const locked = false;
+  let opened = false;
+
+  let mouseOverGift = false;
+
+  const lid = document.querySelectorAll(".lid")[0];
+  const h3 = document.querySelectorAll("h3")[0];
+  const base = document.querySelectorAll(".base")[0];
+  const article = document.querySelectorAll("article")[0];
+  const note = document.querySelector<HTMLElement>(".note")!;
+
+  if (opened) {
+    lid.classList.add("animate");
+    lid.getAnimations()[0].finish();
+
+    h3.classList.add("hidden");
+    h3.getAnimations()[0].finish();
+  }
+
+  const handleShake = (locked: boolean, opened: boolean) => {
+    if (locked || opened) return;
+
+    article.classList.add("shake");
+
+    article.addEventListener("mouseenter", () => {
+      mouseOverGift = true;
+    });
+
+    article.getAnimations()[0].addEventListener("finish", () => {
+      if (mouseOverGift) article.getAnimations()[0].pause();
+      else article.getAnimations()[0].play();
+    });
+
+    article.addEventListener("mouseleave", () => {
+      mouseOverGift = false;
+      article.getAnimations()[0].play();
+    });
+  };
+
+  const handleLidOpening = () => {
+    audioOpenChest.play();
+
+    article.removeEventListener("mouseleave", () => {});
+    article.removeEventListener("mouseenter", () => {});
+
+    if (opened) return;
+
+    note.style.pointerEvents = "none";
+
+    const timeline = createTimeline()
+      .add(
+        ".note",
+        {
+          height: "100%",
+          duration: 500,
+          delay: 400,
+          ease: "inOut",
+          onComplete: () => {
+            note.style.height = "100%";
+          },
+        },
+        0,
+      )
+      .add(
+        ".note",
+        {
+          top: "0%",
+          duration: 700,
+          delay: 400,
+          ease: "inOutBack",
+          onComplete: () => {
+            note.style.top = "0%";
+          },
+        },
+        0,
+      )
+      .add(".note", {
+        translateY: "-65%",
+        duration: 700,
+        delay: 400,
+        ease: "inOut",
+        onComplete: () => {
+          note.style.zIndex = "200";
+
+          animate(".note", {
+            translateY: "0%",
+            duration: 750,
+            delay: 250,
+            ease: "inOutBack",
+            onComplete: () => {
+              note.style.pointerEvents = "all";
+            },
+          });
+        },
+      });
+
+    timeline.play();
+
+    h3.classList.add("hidden");
+
+    article.getAnimations()[0].addEventListener("finish", () => {
+      article.getAnimations()[0].pause();
+      article.getAnimations()[0].cancel();
+    });
+    article.getAnimations()[0].removeEventListener("finish", () => {});
+    // if (!lid.classList.contains("animate")) {
+
+    lid.classList.add("animate");
+    lid.getAnimations()[0].addEventListener("finish", () => {
+      lid.classList.add("hide-events");
+      base.classList.add("hide-events");
+    });
+
+    // lid.classList.remove("deanimate");
+    // }
+    // else {
+    //   lid.classList.remove("animate");
+    //   lid.classList.add("deanimate");
+    // }
+
+    base.removeEventListener("click", () => {});
+    lid.removeEventListener("click", () => {});
+    opened = true;
+  };
+
+  base.addEventListener("click", handleLidOpening);
+  lid.addEventListener("click", handleLidOpening);
+  handleShake(locked, opened);
+</script>
+
+<section>
+  <div class="container">
+    <h3 class="">Tu regalo está listo. Pulsa para abrirlo!</h3>
+    <article class="">
+      <svg class="lid" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <g id="flat">
+          <!-- <rect height="34" style="fill:#7ea82d" width="52" x="6" y="27" /> -->
+          <!-- <rect height="4" style="fill:#729c22" width="52" x="6" y="27" /> -->
+          <rect height="12" style="fill:#7ea82d" width="58" x="3" y="15" />
+          <!-- <rect height="46" style="fill:#dd4a43" width="12" x="26" y="15" /> -->
+          <!-- <rect height="34" style="fill:#dd4a43" width="12" x="26" y="27" /> -->
+          <rect height="12" style="fill:#dd4a43" width="12" x="26" y="15" />
+          <!-- <rect height="4" style="fill:#d13e37" width="12" x="26" y="27" /> -->
+          <path d="M27.658,6.317A6,6,0,0,0,22.292,3H14a6,6,0,0,0,0,12H32Z" style="fill:#dd4a43" />
+          <path
+            d="M32,15H22a6,6,0,0,1-6-6h0a6,6,0,0,1,6-6h.292a6,6,0,0,1,5.366,3.317Z"
+            style="fill:#b0342e"
+          />
+          <path d="M36.342,6.317A6,6,0,0,1,41.708,3H50a6,6,0,0,1,0,12H32Z" style="fill:#dd4a43" />
+          <path
+            d="M32,15H42a6,6,0,0,0,6-6h0a6,6,0,0,0-6-6h-.292a6,6,0,0,0-5.366,3.317Z"
+            style="fill:#b0342e"
+          />
+          <polygon points="38 27 38 15 26 15 26 27 30 27 32 22 34 27" style="fill:#d13e37" />
+          <!-- <polygon points="38 36 38 27 26 27 26 37 30 27 34 27 38 36" style="fill:#d13e37" /> -->
+          <!-- <polygon points="38 36 38 15 26 15 26 37 32 22 38 36" style="fill:#d13e37" /> -->
+          <polygon points="21 42 17 37 10 39 20 15 32 15 21 42" style="fill:#dd4a43" />
+          <polygon points="43 42 47 37 54 39 44 15 32 15 43 42" style="fill:#dd4a43" />
+          <rect
+            height="2"
+            style="fill:#e66b65"
+            transform="translate(-14.645 35.51) rotate(-68.547)"
+            width="9.642"
+            x="13.91"
+            y="27.5"
+          />
+          <rect
+            height="2"
+            style="fill:#e66b65"
+            transform="translate(-5.742 33.641) rotate(-68.973)"
+            width="2.143"
+            x="20.544"
+            y="20"
+          />
+          <!-- <rect height="9" style="fill:#95c43b" width="2" x="9" y="49" /> -->
+          <!-- <rect height="2" style="fill:#95c43b" width="2" x="9" y="45" /> -->
+        </g>
+      </svg>
+      <svg class="base" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <g id="flat">
+          <rect height="34" style="fill:#7ea82d" width="52" x="6" y="27" />
+          <rect height="4" style="fill:#729c22" width="52" x="6" y="27" />
+          <!-- <rect height="12" style="fill:#7ea82d" width="58" x="3" y="15" /> -->
+          <!-- <rect height="46" style="fill:#dd4a43" width="12" x="26" y="15" /> -->
+          <rect height="34" style="fill:#dd4a43" width="12" x="26" y="27" />
+          <!-- <rect height="12" style="fill:#dd4a43" width="12" x="26" y="15" /> -->
+          <!-- <rect height="4" style="fill:#d13e37" width="12" x="26" y="27" /> -->
+          <!-- <path d="M27.658,6.317A6,6,0,0,0,22.292,3H14a6,6,0,0,0,0,12H32Z" style="fill:#dd4a43" />
+		<path d="M32,15H22a6,6,0,0,1-6-6h0a6,6,0,0,1,6-6h.292a6,6,0,0,1,5.366,3.317Z" style="fill:#b0342e" />
+		<path d="M36.342,6.317A6,6,0,0,1,41.708,3H50a6,6,0,0,1,0,12H32Z" style="fill:#dd4a43" />
+		<path d="M32,15H42a6,6,0,0,0,6-6h0a6,6,0,0,0-6-6h-.292a6,6,0,0,0-5.366,3.317Z" style="fill:#b0342e" /> -->
+          <!-- <polygon points="38 27 38 15 26 15 26 27 30 27 32 22 34 27" style="fill:#d13e37" /> -->
+          <polygon points="38 36 38 27 26 27 26 37 30 27 34 27 38 36" style="fill:#d13e37" />
+          <!-- <polygon points="38 36 38 15 26 15 26 37 32 22 38 36" style="fill:#d13e37" /> -->
+          <!-- <polygon points="21 42 17 37 10 39 20 15 32 15 21 42" style="fill:#dd4a43" /> -->
+          <!-- <polygon points="43 42 47 37 54 39 44 15 32 15 43 42" style="fill:#dd4a43" /> -->
+          <!-- <rect height="2" style="fill:#e66b65" transform="translate(-14.645 35.51) rotate(-68.547)" width="9.642" x="13.91"
+			y="27.5" />
+		<rect height="2" style="fill:#e66b65" transform="translate(-5.742 33.641) rotate(-68.973)" width="2.143" x="20.544"
+			y="20" /> -->
+          <rect height="9" style="fill:#95c43b" width="2" x="9" y="49" />
+          <rect height="2" style="fill:#95c43b" width="2" x="9" y="45" />
+        </g>
+      </svg>
+      <div class="note">
+        <h4>Regalo #1</h4>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam incidunt exercitationem
+          dignissimos soluta quasi, ipsam dolorem sunt! Iure hic eveniet corrupti asperiores vitae
+          consequuntur suscipit saepe, nulla quae molestias sunt!
+        </p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<style>
+  .hide-events {
+    /* display: none; */
+    pointer-events: none;
+  }
+
+  section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0002;
+    backdrop-filter: blur(10px);
+  }
+
+  .container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  h3 {
+    top: -5rem;
+    max-width: 200%;
+    width: max-content;
+    position: absolute;
+    font-size: xx-large;
+    text-align: center;
+
+    &.hidden {
+      animation: fade-out 500ms forwards;
+    }
+  }
+
+  article {
+    --bg-color: oklch(59.414% 0.17641 24.215);
+    --wrap-color: oklch(69.786% 0.162 150.628);
+    --w: clamp(200px, 100rem, 500px);
+    position: relative;
+    width: var(--w);
+    aspect-ratio: 1;
+    border: solid red 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & * {
+      /* border: solid 10px #0003; */
+    }
+
+    &.shake {
+      animation: shake 1750ms forwards ease;
+    }
+  }
+
+  .base {
+    cursor: pointer;
+    position: absolute;
+    bottom: 0;
+
+    width: var(--w);
+    height: 100%;
+    z-index: 20;
+
+    &.shadow {
+      all: unset;
+      position: absolute;
+      bottom: 0;
+
+      box-shadow: 0 0 100px 10px var(--bg-color);
+      width: var(--w);
+      height: 90%;
+      border-radius: 0 0 calc((var(--w) / 150px) * 1rem) calc((var(--w) / 150px) * 1rem);
+      /* background-color: var(--bg-color); */
+      z-index: 0;
+    }
+  }
+
+  .lid {
+    cursor: pointer;
+    position: absolute;
+
+    width: var(--w);
+    height: 100%;
+    z-index: 50;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      translate: -50%;
+      height: 100%;
+      width: calc((var(--w) / 10px) * 1px);
+      background-color: var(--wrap-color);
+    }
+
+    &.animate {
+      animation:
+        open-lid 500ms forwards ease,
+        fade-out 500ms forwards ease-in;
+      /* animation: ; */
+    }
+
+    &.deanimate {
+      animation: close-lid 500ms forwards;
+    }
+
+    & svg {
+      position: absolute;
+      z-index: 50;
+      width: 60%;
+      left: 20%;
+      top: -100%;
+      border: 0;
+    }
+  }
+
+  .note {
+    background-color: #fff;
+    position: absolute;
+    top: 25%;
+    width: 70%;
+    height: 70%;
+    z-index: 10;
+    /* z-index: 50; */
+    transition: translate 200ms ease;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+    padding: 2rem;
+
+    & * {
+      border: none;
+    }
+
+    &:hover {
+      translate: 0 -25px;
+      z-index: 15;
+    }
+
+    & h4 {
+      margin-top: 1.25rem;
+      font-size: 16pt;
+    }
+  }
+
+  article:has(.note:hover) .lid {
+    z-index: 10;
+  }
+
+  @keyframes shake {
+    0%,
+    40%,
+    100% {
+      rotate: 0deg;
+    }
+
+    5% {
+      rotate: -2deg;
+    }
+
+    10% {
+      rotate: 2deg;
+    }
+
+    15% {
+      rotate: -2deg;
+    }
+
+    20% {
+      rotate: 2deg;
+    }
+
+    25% {
+      rotate: -1deg;
+    }
+
+    30% {
+      rotate: 1deg;
+    }
+
+    35% {
+      rotate: -0.5deg;
+    }
+  }
+
+  @keyframes open-lid {
+    from {
+      translate: 0 0;
+      rotate: 0deg;
+      transform-origin: top left;
+    }
+
+    to {
+      translate: -125px -25px;
+      rotate: -30deg;
+      transform-origin: top left;
+    }
+  }
+
+  @keyframes close-lid {
+    from {
+      translate: -125px -25px;
+      rotate: -30deg;
+      transform-origin: top left;
+    }
+
+    to {
+      translate: 0 0;
+      rotate: 0deg;
+      transform-origin: top left;
+    }
+  }
+
+  @keyframes fade-out {
+    to {
+      opacity: 0;
+    }
+  }
+</style>

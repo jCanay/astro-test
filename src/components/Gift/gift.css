@@ -1,0 +1,51 @@
+article.gift {
+  .box-base {
+    fill: var(--box);
+  }
+  .box-dark {
+    fill: color-mix(in srgb, var(--box), black 10%);
+  }
+  .box-light {
+    fill: color-mix(in srgb, var(--box), white 18%);
+  }
+
+  /* Tonos automáticos del LAZO */
+  .ribbon-base {
+    fill: var(--ribbon);
+  }
+  .ribbon-dark {
+    fill: color-mix(in srgb, var(--ribbon), black 8%);
+  }
+  .ribbon-darker {
+    fill: color-mix(in srgb, var(--ribbon), black 21%);
+  }
+  .ribbon-light {
+    fill: color-mix(in srgb, var(--ribbon), white 22%);
+  }
+
+  filter: drop-shadow(5px 5px 0px #0002);
+
+  --bg-color: oklch(59.414% 0.17641 24.215);
+  --wrap-color: oklch(69.786% 0.162 150.628);
+  width: 100%;
+  aspect-ratio: 1;
+  /* border: solid red 1px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: scale 250ms ease;
+
+  &:hover {
+    scale: 110%;
+  }
+
+  & svg {
+    position: absolute;
+  }
+}
+
+article.gift .lid {
+  z-index: 10;
+}

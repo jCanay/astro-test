@@ -1,27 +1,243 @@
 ---
-import RewardCountdown from "../components/RewardCountdown.astro";
-import { getNextUnlockTime } from "../lib/rewards";
-
-const nextUnlockTime = getNextUnlockTime();
+import Grid from "../components/Grid";
+import MainCounter from "../components/MainCounter";
+// import PresentDesign from "../components/PresentDesign.astro";
+import PresentDialog from "../components/PresentDialog.astro";
+import MainHeader from "../components/MainHeader";
 ---
 
-<html lang="en">
+<script>
+  const sfxBgMusic = new Audio("/audio/snoopy-jazz-music.ogg");
+  sfxBgMusic.loop = true; // Activa la reproducción en bucle
+  sfxBgMusic.volume = 0.5; // Volumen al 50%
+
+  const video = document.querySelector<HTMLVideoElement>("video.snoopy")!;
+  const trigger = document.querySelector<HTMLElement>("div.screen")!;
+
+  trigger.addEventListener("click", () => {
+    video.play();
+    sfxBgMusic.play();
+    trigger.style.zIndex = "0";
+    trigger.style.backgroundColor = "transparent";
+  });
+
+  // function iniciarMusica() {
+  //   sfxBgMusic
+  //     .play()
+  //     .then(() => {
+  //       // Si logra reproducirse, quitamos los escuchadores para que no se ejecuten más
+  //       document.removeEventListener("click", iniciarMusica);
+  //       document.removeEventListener("keydown", iniciarMusica);
+  //     })
+  //     .catch(() => {
+  //       // El navegador bloqueó el autoplay; esperamos a que el usuario haga clic
+  //       console.log("Esperando interacción del usuario para iniciar la música...");
+  //     });
+  // }
+
+  // // 1. Intentamos reproducir nada más cargar (funcionará si el usuario ya interactuó mucho con tu web)
+  // iniciarMusica();
+
+  // // 2. Si falló, arrancará en cuanto haga clic o toque cualquier parte de la pantalla
+  // document.addEventListener("click", iniciarMusica);
+  // document.addEventListener("keydown", iniciarMusica);
+</script>
+
+<html lang="es">
   <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
+    <title>Calendario de adviento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Luckiest+Guy&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=SN+Pro:ital,wght@0,200..900;1,200..900&display=swap"
+      rel="stylesheet"
+    />
   </head>
+
   <body>
-    <h1>Astro</h1>
-    {nextUnlockTime !== null && (
-      <section>
-        <h2>Próxima recompensa en:</h2>
-        <RewardCountdown targetTime={nextUnlockTime} />
-      </section>
-    )}
-    <button id="play-button">Play</button>
+    <!-- <PresentDesign /> -->
+    <main>
+      <div class="screen" />
+      <video loop class="snoopy">
+        <source src="video/snoopy-bg-long.mp4" type="video/mp4" />
+      </video>
+      <div class="advent">
+        <div class="content">
+          <MainHeader client:load />
+          <!-- <PresentDialog /> -->
+          <section class="gifts">
+            <div class="wrapper">
+              <Grid client:load />
+            </div>
+          </section>
+        </div>
+      </div>
+      <!-- <Contador client:load fechaObjetivo={configuracion.fechaObjetivo} /> -->
+    </main>
   </body>
 </html>
+
+<style is:global>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    /* border: solid 1px red; */
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    margin: 0;
+  }
+
+  main {
+    position: relative;
+    width: 100%;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  main section,
+  main header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  main section > div.wrapper,
+  main header > div.wrapper {
+    width: 100%;
+    max-width: 70rem;
+  }
+</style>
+
+<style>
+  .screen {
+    /* display: none; */
+    position: fixed;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f005;
+    /* pointer-events: none; */
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  video.snoopy {
+    position: fixed;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .advent {
+    position: relative;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .house {
+    position: relative;
+    width: 80rem;
+    translate: 0 -8rem;
+    aspect-ratio: 1;
+    z-index: -1;
+  }
+
+  .content {
+    /* position: absolute; */
+    width: 100%;
+    /* background-image: url("house2.svg"); */
+    background-repeat: no-repeat;
+    background-position: 50% 75%;
+    background-size: 110rem;
+    overflow: visible;
+  }
+
+  header section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    justify-content: center;
+    gap: 2rem;
+
+    width: 100%;
+    margin: 3rem 0;
+
+    & h2 {
+      font-size: 40pt;
+      font-family: "Great Vibes", cursive;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    & time {
+      font-size: xx-large;
+      font-family: "Shantell Sans", cursive;
+      font-optical-sizing: auto;
+      font-weight: 600;
+      font-style: italic;
+    }
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  :global(.grid) {
+    --max-cols: 5; /* Máximo absoluto de columnas */
+    --gap: 2rem; /* Espacio entre columnas */
+    --min-col-width: 100px; /* Ancho mínimo en móviles */
+    --max-col-width: 100px; /* Tamaño deseado para cada tarjeta (.counter) */
+
+    display: grid;
+    gap: var(--gap);
+    padding: 0 1rem;
+    width: 100%;
+    margin-inline: auto;
+    place-content: center;
+    place-items: center;
+
+    /* 1. Limita el crecimiento del contenedor al tamaño de tus tarjetas pequeñas */
+    max-width: calc(
+      (var(--max-cols) * var(--max-col-width)) + ((var(--max-cols) - 1) * var(--gap)) + 2rem
+    );
+
+    /* 2. Calcula el ancho mínimo porcentual para que nunca quepan más de 5 */
+    --cols-limit: calc((100% - (var(--max-cols) - 1) * var(--gap)) / var(--max-cols) - 1px);
+
+    /* 3. Usa el mayor entre el mínimo fijo (125px) y el límite de 5 columnas */
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(max(min(100%, var(--min-col-width)), var(--cols-limit)), 1fr)
+    );
+  }
+
+  :global(.counter) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 1rem;
+    height: 10rem;
+    aspect-ratio: 1;
+    background-color: rgb(245, 170, 170);
+  }
+</style>

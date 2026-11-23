@@ -1,0 +1,155 @@
+{
+  "fechasObjetivo": [
+    {
+      "id": 1,
+      "fecha": "2026-12-01T00:00:00",
+      "premio": "",
+      "desbloqueado": false,
+      "abierto": false
+    },
+    {
+      "id": 2,
+      "fecha": "2026-12-02T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 3,
+      "fecha": "2026-12-03T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 4,
+      "fecha": "2026-12-04T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 5,
+      "fecha": "2026-12-05T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 6,
+      "fecha": "2026-12-06T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 7,
+      "fecha": "2026-12-07T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 8,
+      "fecha": "2026-12-08T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 9,
+      "fecha": "2026-12-09T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 10,
+      "fecha": "2026-12-10T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 11,
+      "fecha": "2026-12-11T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 12,
+      "fecha": "2026-12-12T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 13,
+      "fecha": "2026-12-13T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 14,
+      "fecha": "2026-12-14T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 15,
+      "fecha": "2026-12-15T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 16,
+      "fecha": "2026-12-16T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 17,
+      "fecha": "2026-12-17T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 18,
+      "fecha": "2026-12-18T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 19,
+      "fecha": "2026-12-19T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 20,
+      "fecha": "2026-12-20T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 21,
+      "fecha": "2026-12-21T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 22,
+      "fecha": "2026-12-22T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 23,
+      "fecha": "2026-12-23T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 24,
+      "fecha": "2026-12-24T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    },
+    {
+      "id": 25,
+      "fecha": "2026-12-25T00:00:00",
+      "premio": "",
+      "premioDesbloqueado": false
+    }
+  ]
+}
