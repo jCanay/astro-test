@@ -7,6 +7,7 @@
   const audioOpenChest = new Audio("/audio/zelda-chest-open-short.ogg");
 
   enum State {
+    WAITING, // Esperando a que pueda ser desbloqueado
     LOCKED, // Bloqueado, aun no se puede abrir
     UNLOCKED, // Desbloqueado, pero aún no abierto
     OPENED, // Abierto, pero solo

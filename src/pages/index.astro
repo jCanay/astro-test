@@ -4,6 +4,7 @@ import MainCounter from "../components/MainCounter";
 // import PresentDesign from "../components/PresentDesign.astro";
 import PresentDialog from "../components/PresentDialog.astro";
 import MainHeader from "../components/MainHeader";
+import PresentDesign from "../components/PresentDesign.astro";
 ---
 
 <script>
@@ -51,7 +52,7 @@ import MainHeader from "../components/MainHeader";
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Luckiest+Guy&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=SN+Pro:ital,wght@0,200..900;1,200..900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Jost:ital,wght@0,100..900;1,100..900&family=Luckiest+Guy&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=SN+Pro:ital,wght@0,200..900;1,200..900&family=Shantell+Sans:ital,wght@0,300..800;1,300..800&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -70,6 +71,7 @@ import MainHeader from "../components/MainHeader";
           <section class="gifts">
             <div class="wrapper">
               <Grid client:load />
+              <!-- <PresentDialog /> -->
             </div>
           </section>
         </div>
@@ -162,12 +164,15 @@ import MainHeader from "../components/MainHeader";
 
   .content {
     /* position: absolute; */
-    width: 100%;
+    width: fit-content;
+    gap: 2rem;
     /* background-image: url("house2.svg"); */
     background-repeat: no-repeat;
     background-position: 50% 75%;
     background-size: 110rem;
     overflow: visible;
+    display: flex;
+    flex-direction: column;
   }
 
   header section {
@@ -201,15 +206,27 @@ import MainHeader from "../components/MainHeader";
     font-size: 2.5rem;
   }
 
+  :global(header .wrapper) {
+    background-color: #fff2;
+    backdrop-filter: blur(10px);
+    border-radius: 2rem;
+    border: solid 2px #fff;
+  }
+
   :global(.grid) {
-    --max-cols: 5; /* Máximo absoluto de columnas */
+    --max-cols: 6; /* Máximo absoluto de columnas */
     --gap: 2rem; /* Espacio entre columnas */
     --min-col-width: 100px; /* Ancho mínimo en móviles */
     --max-col-width: 100px; /* Tamaño deseado para cada tarjeta (.counter) */
 
+    box-sizing: content-box;
+    position: relative;
     display: grid;
+    background-color: #fff2;
+    border: solid 2px #fff;
+    border-radius: 2rem;
     gap: var(--gap);
-    padding: 0 1rem;
+    padding: 2rem 2rem;
     width: 100%;
     margin-inline: auto;
     place-content: center;
@@ -217,7 +234,7 @@ import MainHeader from "../components/MainHeader";
 
     /* 1. Limita el crecimiento del contenedor al tamaño de tus tarjetas pequeñas */
     max-width: calc(
-      (var(--max-cols) * var(--max-col-width)) + ((var(--max-cols) - 1) * var(--gap)) + 2rem
+      (var(--max-cols) * var(--max-col-width)) + ((var(--max-cols) - 1) * var(--gap)) + 4rem
     );
 
     /* 2. Calcula el ancho mínimo porcentual para que nunca quepan más de 5 */
@@ -225,9 +242,20 @@ import MainHeader from "../components/MainHeader";
 
     /* 3. Usa el mayor entre el mínimo fijo (125px) y el límite de 5 columnas */
     grid-template-columns: repeat(
-      auto-fit,
+      auto-fill,
       minmax(max(min(100%, var(--min-col-width)), var(--cols-limit)), 1fr)
     );
+
+    /* backdrop-filter: blur(10px); */
+
+    &::before {
+      content: "";
+      backdrop-filter: blur(10px);
+      border-radius: 2rem;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+    }
   }
 
   :global(.counter) {

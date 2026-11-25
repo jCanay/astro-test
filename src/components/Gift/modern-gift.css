@@ -1,0 +1,145 @@
+article.gift {
+  .box-base {
+    fill: var(--box);
+  }
+  .box-dark {
+    fill: color-mix(in srgb, var(--box), black 10%);
+  }
+  .box-light {
+    fill: color-mix(in srgb, var(--box), white 18%);
+  }
+
+  /* Tonos automáticos del LAZO */
+  .ribbon-base {
+    fill: var(--ribbon);
+  }
+  .ribbon-dark {
+    fill: color-mix(in srgb, var(--ribbon), black 8%);
+  }
+  .ribbon-darker {
+    fill: color-mix(in srgb, var(--ribbon), black 21%);
+  }
+  .ribbon-light {
+    fill: color-mix(in srgb, var(--ribbon), white 22%);
+  }
+
+  /* filter: drop-shadow(5px 5px 0px #0002); */
+
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  shape-rendering: optimizeSpeed;
+  background-color: var(--box);
+  font-family: "Jost", sans-serif;
+  font-size: 3.5rem;
+  border-radius: 0.75rem;
+  font-weight: 900;
+  border: solid 2px transparent;
+  background-size: 100%;
+  background-position: center;
+  background-size: cover;
+
+  transition:
+    scale 250ms ease,
+    border-color 250ms ease;
+  --padding: 0.25rem;
+  --paddingOffset: 0.33rem;
+
+  &:hover {
+    scale: 110%;
+    border-color: #fff;
+  }
+
+  & svg {
+    position: absolute;
+  }
+}
+
+.gift-trigger {
+  all: unset;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  cursor: pointer;
+}
+
+article.pos-tl {
+  & span {
+    position: absolute;
+    top: var(--padding);
+    left: calc(var(--padding) + var(--paddingOffset));
+    font-size: 1.25rem;
+  }
+}
+
+article.pos-tr {
+  & span {
+    position: absolute;
+    top: var(--padding);
+    right: calc(var(--padding) + var(--paddingOffset));
+    font-size: 1.25rem;
+  }
+}
+
+article.pos-bl {
+  & span {
+    position: absolute;
+    bottom: var(--padding);
+    left: calc(var(--padding) + var(--paddingOffset));
+    font-size: 1.25rem;
+  }
+}
+
+article.pos-br {
+  & span {
+    position: absolute;
+    bottom: var(--padding);
+    right: calc(var(--padding) + var(--paddingOffset));
+    font-size: 1.25rem;
+  }
+}
+
+dialog.gift-modal {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 1rem;
+  border: 0;
+  background: transparent;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+dialog.gift-modal[open] {
+  display: flex;
+}
+
+dialog.gift-modal::backdrop {
+  background: rgb(0 0 0 / 50%);
+}
+
+dialog.gift-modal section {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: min(32rem, 100%);
+  padding: 2rem;
+  border-radius: 0.75rem;
+  background: #fff;
+}
